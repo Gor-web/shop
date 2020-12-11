@@ -1,17 +1,17 @@
 <template>
   <div id="app">
+    <Header/>
 <router-view/>
   </div>
 </template>
 
 <script>
-  import Vue from 'vue';
-  import BootstrapVue from 'bootstrap-vue';
-  import 'bootstrap/dist/css/bootstrap.css';
-  import 'bootstrap-vue/dist/bootstrap-vue.css';
-  Vue.use(BootstrapVue);
+
+  import Header from "./components/Global/header";
+
 export default {
   name: 'App',
+  components: {Header},
   data() {
     return {
 
@@ -25,6 +25,6 @@ export default {
 
 <style>
 #app {
-font-family: "Droid Sans";
+
 }
 </style>
