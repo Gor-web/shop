@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+//Auths with another pages
 import authRoutes from '../components/Auth/auth-routes.js'
+import userRoutes from '../components/Pages/user-routes'
 //not found
 import NotFound from "../components/404/NotFound";
 
@@ -16,6 +18,7 @@ export default new Router({
       redirect:'/login'
     },
     ...authRoutes,
+    ...userRoutes,
     {
       path: '*',
       name: 'NotFound',

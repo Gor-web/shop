@@ -12,7 +12,7 @@
             <a class="nav-link" href="#">Contact</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Your Page</a>
+            <router-link class="nav-link" to="/user"><div>Your Page</div></router-link>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">About</a>

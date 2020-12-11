@@ -1,26 +1,31 @@
 <template>
   <div class="login-container">
-    <hr>
-    <div class="d-flex justify-content-center align-items-center">
-      <div class="form-group w-25 ">
-        <p class="text">Login</p>
-        <div class="d-flex justify-content-center">
-          <input type="text" class="form-control m-2 width" placeholder="email">
+    <p class="text">Login</p>
+    <form>
+      <div class="form-group d-flex justify-content-center ">
+        <div class="col-md-6  w-50">
+          <input id="email" type="email" class="form-control" placeholder="Email">
         </div>
 
-        <div class="d-flex justify-content-center">
-          <input type="text" class="form-control m-2 width" placeholder="password">
-        </div>
-
-        <div class="form-check ml-3">
-          <input type="checkbox" class="form-check-input" id="Check">
-          <label class="form-check-label" for="Check">Remember Me</label>
-        </div>
-        <div class="d-flex justify-content-center">
-          <input type="submit" class="btn btn-info m-2 " value="Sign">
+        <div class="col-md-6 w-50">
+          <input id="password" type="password" class="form-control" placeholder="Password">
         </div>
       </div>
-    </div>
+
+      <div class="form-check margin">
+        <input type="checkbox" class="form-check-input" id="Check">
+        <label class="form-check-label" for="Check">Remember Me</label>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-info m-2 btn-lg ">Sign</button>
+      </div>
+      <div class="d-flex account-register">
+        <div class="color">No account?</div>
+        <router-link to="/signup"><div class="color">Registration</div></router-link>
+      </div>
+
+    </form>
   </div>
 </template>
 
@@ -31,10 +36,31 @@ export default {
 </script>
 
 <style scoped>
+.login-container {
+  width: 500px;
+  height: 400px;
+  background-color: #fff5b1;
+  margin: 40px auto;
+
+}
 .text {
   text-align: center;
   font-size: 1.3em;
   font-family: Corbel;
+}
+
+.margin {
+  margin-left: 190px;
+}
+
+.account-register {
+  margin-top: 50px;
+  background-color: #fff764;
+  text-align: center;
+}
+.color {
+  color: #ff724b;
+  margin-left: 100px;
 }
 
 </style>
