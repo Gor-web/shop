@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import Vuelidate from 'vuelidate'
 
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -11,6 +12,7 @@ import 'bootstrap/dist/js/bootstrap.min'
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
+Vue.use(Vuelidate)
 
 Vue.config.productionTip = false
 
