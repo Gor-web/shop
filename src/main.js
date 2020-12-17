@@ -9,6 +9,9 @@ import Vuelidate from 'vuelidate'
 //axios
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+//store
+import store from "./store";
+import userMixin from './mixins/user-mixin.js'
 
 
 Vue.use(Vuelidate)
@@ -19,6 +22,8 @@ Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  mixins:[userMixin],
   router,
+  store,
   render: h => h(App)
 })

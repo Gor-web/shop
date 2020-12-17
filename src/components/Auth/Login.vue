@@ -69,6 +69,7 @@ export default {
         this.storageUsers(this.user)
         console.log(res)
         localStorage.setItem('access_token',res.data.access_token);
+        this.storeUser()
         this.$router.push('/user')
       }).catch(err=>{
         console.log(err.response.data.error)
@@ -82,7 +83,8 @@ export default {
     userSubmit() {
       this.submitted = true,
         this.$v.$touch()
-    }
+    },
+
   }
 }
 </script>

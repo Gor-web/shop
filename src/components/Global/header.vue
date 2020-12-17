@@ -21,6 +21,7 @@
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
             <div class="dropdown-menu">
               <router-link class="dropdown-item" to="/login"><div>Login</div></router-link>
+<!--              <router-link class="dropdown-item" to="/login"><div>LogOut</div></router-link>-->
               <router-link class="dropdown-item" to="/signup"> <div>Registration</div></router-link>
               <a class="dropdown-item" href="#">Something else here</a>
             </div>
