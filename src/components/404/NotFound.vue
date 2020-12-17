@@ -1,21 +1,19 @@
 <template>
-    <div class="not-found-container">
-      <h1 >404 page  not found</h1>
-    </div>
+<div class="not-found-container">
+  <div>404 error</div>
+</div>
 </template>
 
 <script>
-    export default {
-        name: "NotFound"
-    }
+export default {
+  name: "NotFound"
+}
 </script>
 
 <style scoped>
 .not-found-container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  text-align: center;
+  background-color: red;
+  font-size: 2em;
 }
 </style>

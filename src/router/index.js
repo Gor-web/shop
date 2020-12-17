@@ -1,13 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-//Auths with another pages
-import authRoutes from '../components/Auth/auth-routes.js'
-import userRoutes from '../components/Pages/user-routes'
-//not found
+//404 error
 import NotFound from "../components/404/NotFound";
-
-
-
+//Auth routes
+import authRoutes from '../components/auth/auth_routes.js'
+//User routes
+import userRoutes from '../components/pages/user-routes.js'
 
 Vue.use(Router)
 
@@ -15,7 +13,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect:'/login'
+      redirect:'/login',
     },
     ...authRoutes,
     ...userRoutes,
@@ -23,6 +21,6 @@ export default new Router({
       path: '*',
       name: 'NotFound',
       component: NotFound
-    }
+    },
   ]
 })

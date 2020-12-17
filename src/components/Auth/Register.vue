@@ -1,58 +1,62 @@
 <template>
-  <div class="register-container ">
+  <div class="register-container">
     <p class="text">Registration</p>
     <hr>
-    <form @submit.prevent="submit">
+    <form @submit.prevent="handleSubmit">
       <div class="col-sm-6 offset-sm-3">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Name"
-                 v-model.trim="$v.name.$model"
-                 :class="{'is-invalid': validationStatus($v.name)}">
-          <div v-if="!$v.name.required" class="invalid-feedback">The name is required</div>
+          <input type="text" class="form-control" placeholder="firstname"
+                 v-model="user.firstname"
+                 :class="{ 'is-invalid': submitted && $v.user.firstname.$error }">
+          <div v-if="submitted && !$v.user.firstname.required" class="invalid-feedback">First Name is required</div>
         </div>
 
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Surname"
-                 v-model.trim="$v.surname.$model"
-                 :class="{'is-invalid': validationStatus($v.surname)}">
-          <div v-if="!$v.surname.required" class="invalid-feedback">The surname is required</div>
+          <input type="text" class="form-control" placeholder="lastname"
+                 v-model="user.lastname"
+                 :class="{ 'is-invalid': submitted && $v.user.lastname.$error }">
+          <div v-if="submitted && !$v.user.lastname.required" class="invalid-feedback">Last Name is required</div>
         </div>
 
         <div class="form-group">
           <input type="number" class="form-control" placeholder="Age"
-                 v-model.trim="$v.age.$model"
-                 :class="{'is-invalid': validationStatus($v.age)}">
-          <div v-if="!$v.age.required" class="invalid-feedback">The age is required</div>
-          <div v-if="!$v.age.maxLength" class="invalid-feedback">Age can not be more than 100 {{$v.age.$params.maxLength.min}}</div>
+                 v-model="user.age"
+                 :class="{ 'is-invalid': submitted && $v.user.age.$error }">
         </div>
 
         <div class="form-group">
-          <input type="text" class="form-control"
-                 placeholder="Email" :class="{'is-invalid':validationStatus($v.email)}"
-                 v-model.trim="$v.email.$model">
-          <div v-if="!$v.email.required" class="invalid-feedback">The email is required</div>
-          <div v-if="!$v.email.email" class="invalid-feedback">The email is not valid</div>
+          <input type="text" class="form-control" placeholder="Email"
+                 v-model="user.email"
+                 :class="{ 'is-invalid': submitted && $v.user.email.$error }">
+          <div v-if="submitted && $v.user.email.$error" class="invalid-feedback">
+            <span v-if="!$v.user.email.required">Email is required</span>
+            <span v-if="!$v.user.email.email">Email is invalid</span>
+          </div>
         </div>
 
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Password"
-                 :class="{'is-invalid':validationStatus($v.password)}"
-                 v-model.trim="password">
-          <div v-if="!$v.password.required" class="invalid-feedback">Password is required</div>
-          <div v-if="!$v.password.minLength" class="invalid-feedback">You mus have at least {{$v.password.$params.minLength.min}}</div>
-          <div v-if="!$v.password.maxLength" class="invalid-feedback">You mus not have a greater then {{$v.password.$params.maxLength.max}}</div>
+                 v-model="user.password"
+                 :class="{ 'is-invalid': submitted && $v.user.password.$error }">
+          <div v-if="submitted && $v.user.password.$error" class="invalid-feedback">
+            <span v-if="!$v.user.password.required">Password is required</span>
+            <span v-if="!$v.user.password.minLength">Password must be at least 6 characters</span>
+            <span v-if="!$v.user.password.maxLength">Password must not have a greater then 12</span>
+          </div>
         </div>
 
         <div class="form-group">
           <input type="text" class="form-control" placeholder="ConfirmPassword"
-          :class="{'is-invalid': validationStatus($v.confirmPassword)}"
-          v-model.trim="confirmPassword">
-          <div v-if="!$v.confirmPassword.required" class="invalid-feedback">Confirm Password is required</div>
-          <div v-else-if="!$v.confirmPassword.sameAsPassword" class="invalid-feedback">Passwords must match</div>
+                 v-model="user.confirmPassword"
+                 :class="{ 'is-invalid': submitted && $v.user.confirmPassword.$error }">
+          <div v-if="submitted && $v.user.confirmPassword.$error" class="invalid-feedback">
+            <span v-if="!$v.user.confirmPassword.required">Confirm Password is required</span>
+            <span v-else-if="!$v.user.confirmPassword.sameAsPassword">Passwords must match</span>
+          </div>
         </div>
 
         <div class="form-group">
-          <input type="submit" class="btn btn-outline-dark" value="Registration">
+          <input type="submit" class="btn btn-outline-dark" value="Registration" @click="signup">
         </div>
       </div>
     </form>
@@ -61,55 +65,47 @@
 </template>
 
 <script>
-import {required, maxLength, minLength, email, sameAs} from 'vuelidate/lib/validators'
-
+import {required, numeric, email, minLength, maxLength, sameAs} from 'vuelidate/lib/validators'
+import axios from "axios";
 export default {
   name: "Register",
   data() {
     return {
-      name: '',
-      surname: '',
-      age: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
+      user: {
+        firstname: '',
+        lastname: '',
+        age: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+      },
+      submitted: false
     }
   },
   validations: {
-    name: {
-      required
-    },
-    surname: {
-      required
-    },
-    age: {
-      maxLength:maxLength(2),
-      required
-    },
-    email: {
-      required,
-      email
-    },
-    password: {
-      required,
-      minLength: minLength(6),
-      maxLength: maxLength(12)
-    },
-    confirmPassword: {
-      required,
-      sameAsPassword: sameAs('password')
+    user: {
+      firstname: {required},
+      lastname: {required},
+      age: {required, numeric},
+      email: {required, email},
+      password: {required, minLength: minLength(6), maxLength: maxLength(12)},
+      confirmPassword: {required, sameAsPassword: sameAs('password')},
     }
   },
-
   methods: {
-    submit() {
-      this.$v.$touch();
-      if (this.$v.$pending() || this.$v.$error()) {
-        return
-      }
+
+    signup() {
+      axios.post('http://127.0.0.1:8000/api/auth/signUp',this.user).then(res=>{
+        this.$router.push("/login")
+      }).catch(err=>{
+        alert(err.response.data)
+      })
     },
-    validationStatus(validation) {
-      return typeof validation != "undefined" ? validation.$error : false
+
+    handleSubmit(e) {
+      this.submitted = true;
+      this.$v.$touch();
+
     }
   }
 }
@@ -118,13 +114,7 @@ export default {
 <style scoped>
 .text {
   text-align: center;
-  font-size: 1.3em;
-  font-family: -apple-system;
+  font-size: 1.4em;
+  font-family: "Arial Narrow";
 }
-
-.width {
-  width: 450px;
-  border-radius: 10px;
-}
-
 </style>

@@ -1,8 +1,8 @@
 {
-  "name": "lesson7",
+  "name": "shop_front_home",
   "version": "1.0.0",
   "description": "A Vue.js project",
-  "author": "Gor",
+  "author": "Gor-web <gorhakobyan_1997@mail.ru>",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
@@ -12,10 +12,11 @@
   "dependencies": {
     "axios": "^0.21.0",
     "bootstrap": "^4.5.3",
-    "bootstrap-vue": "^2.20.1",
+    "bootstrap-vue": "^2.21.0",
     "jquery": "^3.5.1",
     "popper.js": "^1.16.1",
-    "vue": "^2.5.2",
+    "vue": "^2.6.12",
+    "vue-axios": "^3.2.0",
     "vue-router": "^3.0.1",
     "vuelidate": "^0.7.6"
   },

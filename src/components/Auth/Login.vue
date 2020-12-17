@@ -1,21 +1,27 @@
 <template>
   <div class="login-container">
     <p class="text">Login</p>
-    <form v-on:submit.prevent="submit">
+    <form @submit.prevent="userSubmit">
       <div class="form-group d-flex justify-content-center ">
         <div class="col-md-6  w-50">
-          <input id="email" type="email" :class="{'is-invalid':validationStatus($v.email)}" class="form-control" placeholder="Email"
-          v-model.trim="$v.email.$model">
-          <div v-if="!$v.email.required" class="invalid-feedback">The email is required</div>
-          <div v-if="!$v.email.email" class="invalid-feedback">The email is not valid</div>
+          <input id="email" type="email" class="form-control" placeholder="Email"
+                 v-model="user.email"
+                 :class="{ 'is-invalid': submitted && $v.user.email.$error }">
+          <div v-if="submitted && $v.user.email.$error" class="invalid-feedback">
+            <span v-if="!$v.user.email.required">Email is required</span>
+            <span v-if="!$v.user.email.email">Email is invalid</span>
+          </div>
         </div>
 
         <div class="col-md-6 w-50">
-          <input id="password" type="password" :class="{'is-invalid':validationStatus($v.password)}" class="form-control" placeholder="Password"
-          v-model.trim="password">
-          <div v-if="!$v.password.required" class="invalid-feedback">Password is required</div>
-          <div v-if="!$v.password.minLength" class="invalid-feedback">You mus have at least {{$v.password.$params.minLength.min}}</div>
-          <div v-if="!$v.password.maxLength" class="invalid-feedback">You mus not have a greater then {{$v.password.$params.maxLength.max}}</div>
+          <input id="password" type="password" class="form-control" placeholder="Password"
+                 v-model="user.password"
+                 :class="{ 'is-invalid': submitted && $v.user.password.$error }">
+          <div v-if="submitted && $v.user.password.$error" class="invalid-feedback">
+            <span v-if="!$v.user.password.required">Password is required</span>
+            <span v-if="!$v.user.password.minLength">Password must be at least 6 characters</span>
+            <span v-if="!$v.user.password.maxLength">Password must not have a greater then 12</span>
+          </div>
         </div>
       </div>
 
@@ -25,47 +31,57 @@
       </div>
 
       <div class="d-flex justify-content-center">
-        <button type="submit" class="btn btn-info m-2 btn-lg ">Sign</button>
+        <button type="submit" class="btn btn-info m-2 btn-lg " @click="checkUser">Sign</button>
       </div>
       <div class="d-flex account-register">
         <div class="color">No account?</div>
-        <router-link to="/signup"><div class="color">Registration</div></router-link>
+        <router-link to="/signup">
+          <div class="color">Registration</div>
+        </router-link>
       </div>
-
     </form>
   </div>
 </template>
 
 <script>
-import {required, email, minLength, maxLength} from 'vuelidate/lib/validators'
+import {required,email,minLength,maxLength} from 'vuelidate/lib/validators'
+import axios from "axios";
 export default {
   name: "Login",
   data() {
     return {
-      email:"",
-      password:"",
+      user: {
+        email:'',
+        password:''
+      },
+      submitted:false
     }
   },
   validations: {
-    email:{
-      required,
-      email
-    },
-    password:{
-      required,
-      minLength:minLength(6),
-      maxLength:maxLength(12)
+    user: {
+      email: {required,email},
+      password: {required,minLength:minLength(6),maxLength:maxLength(12)}
     }
   },
   methods: {
-    submit() {
-      this.$v.$touch();
-      if (this.$v.$pending() || this.$v.$error()) {
-          return
-      }
+    checkUser() {
+      axios.post('http://127.0.0.1:8000/api/auth/login',this.user).then(res=>{
+        this.storageUsers(this.user)
+        console.log(res)
+        localStorage.setItem('access_token',res.data.access_token);
+        this.$router.push('/user')
+      }).catch(err=>{
+        console.log(err.response.data.error)
+      })
     },
-    validationStatus(validation) {
-      return typeof validation != "undefined"? validation.$error :false
+    storageUsers(user) {
+      let allUsers = JSON.stringify(user);
+      localStorage.setItem('current_user', allUsers);
+    },
+
+    userSubmit() {
+      this.submitted = true,
+        this.$v.$touch()
     }
   }
 }
@@ -75,10 +91,11 @@ export default {
 .login-container {
   width: 500px;
   height: 400px;
-  background-color: #fff5b1;
+  background-color: #fffdf1;
   margin: 40px auto;
 
 }
+
 .text {
   text-align: center;
   font-size: 1.3em;
@@ -94,9 +111,9 @@ export default {
   background-color: #fff764;
   text-align: center;
 }
+
 .color {
   color: #ff724b;
   margin-left: 100px;
 }
-
 </style>

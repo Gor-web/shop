@@ -1,4 +1,4 @@
-# lesson7
+# shop_front_home
 
 > A Vue.js project
 
