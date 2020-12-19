@@ -5,8 +5,16 @@
       <div class="user_data">Name:<strong>{{getUser && getUser.firstname}}</strong></div>
       <div class="user_data">LastName:<strong>{{getUser && getUser.lastname}}</strong></div>
       <div class="user_data">Email:<strong>{{getUser && getUser.email}}</strong></div>
-      <button @click="logout">LogOut</button>
+      <button v-if="getUser" @click="logout">LogOut</button>
     </div>
+    <div>Add Announcements</div>
+    <form action="" class="form-group w-50">
+      <input type="text" placeholder="title" v-model="announcements.title" class="form-control">
+      <textarea name="" id="" cols="3" rows="3" placeholder="text" v-model="announcements.description" class="form-control"></textarea>
+      <input type="date" placeholder="deadline" v-model="announcements.deadline" class="form-control">
+      <input type="text" placeholder="salary" v-model="announcements.salary" class="form-control">
+      <button @click="createAnnouncement">Add</button>
+    </form>
   </div>
 </template>
 
@@ -17,9 +25,34 @@
   export default {
     name: "User",
     data() {
-      return {}
+      return {
+        announcements:{
+          title:'',
+          description:'',
+          deadline:'',
+          salary:'',
+        }
+      }
     },
+    mounted() {
+      this.storeUser()
+    },
+
     methods: {
+
+      createAnnouncement() {
+        const token=`Bearer ${localStorage.getItem('access_token')}`
+        axios.post('http://127.0.0.1:8000/api/announcement/create',this.announcements,{
+          headers:{
+            'Authorization':token
+          }
+        }).then(res=>{
+          this.$router.push("/announcement")
+        }).catch(err=>{
+          alert(err.response.data)
+        })
+      },
+
       logout() {
         const token=`Bearer ${localStorage.getItem('access_token')}`
         axios.post('http://127.0.0.1:8000/api/auth/me',null,{

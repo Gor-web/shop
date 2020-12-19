@@ -7,12 +7,12 @@ export default [
     path: '/login',
     name: 'Login',
     component: Login,
-    meta: {middleware: [guest]}
+    meta: {middleware: ['guest']}
   },
   {
     path: '/signup',
     name: 'Register',
     component: Register,
-    meta: {middleware: [auth]}
+    meta: {middleware: ['guest']}
   }
 ]

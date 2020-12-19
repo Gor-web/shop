@@ -12,10 +12,10 @@
             <a class="nav-link" href="#">Contact</a>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/user"><div>Your Page</div></router-link>
+            <router-link v-if="getUser" class="nav-link" to="/user"><div>Your Page</div></router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
+            <router-link v-if="getUser" class="nav-link" to="#"><div>My announcements</div></router-link>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>

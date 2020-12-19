@@ -12,9 +12,7 @@ import Footer from "./components/Global/footer";
 export default {
   name: 'App',
   components: {Footer, Header},
-  mounted() {
-    this.storeUser()
-  }
+
 }
 </script>
 

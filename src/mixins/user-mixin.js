@@ -24,7 +24,8 @@ export default Vue.mixin({
   computed: {
     getUser() {
       return JSON.parse(localStorage.getItem('user')) || this.$store.getters.user
-    }
+    },
+
   }
 })
 

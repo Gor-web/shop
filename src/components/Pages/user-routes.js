@@ -1,11 +1,17 @@
 import User from "./User";
-import auth from "../../middlewares/auth";
+import Announcement from "./Announcement";
 
 export default [
   {
     path:'/user',
     name:'User',
     component:User,
-    meta: {middleware: [auth]}
+    meta: {middleware: ['auth']}
+  },
+  {
+    path:'/announcement',
+    name:'Announcement',
+    component:Announcement,
+    meta: {middleware: ['auth']}
   }
 ]

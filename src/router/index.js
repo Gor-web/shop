@@ -7,9 +7,11 @@ import authRoutes from '../components/auth/auth_routes.js'
 //User routes
 import userRoutes from '../components/pages/user-routes.js'
 
-Vue.use(Router)
+import auth from "../middlewares/auth";
+import guest from "../middlewares/guest";
 
-export default new Router({
+Vue.use(Router)
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -24,3 +26,15 @@ export default new Router({
     },
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  console.log(to.meta.middleware)
+   if (to.meta.middleware) {
+     if (to.meta.middleware.includes('auth')) {
+       auth({next,router})
+     } else if (to.meta.middleware.includes('guest')) {
+       guest({from, next, router})
+     }
+   }
+});
+export default router
